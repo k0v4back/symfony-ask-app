@@ -215,14 +215,15 @@ class User implements UserInterface, \Serializable
     {
         return serialize([
             $this->id,
-            $this->email,
+            $this->name,
             $this->password
         ]);
     }
+
     public function unserialize($serialized)
     {
         list($this->id,
-            $this->email,
+            $this->name,
             $this->password) = unserialize($serialized);
     }
 }

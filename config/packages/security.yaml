@@ -10,7 +10,7 @@ security:
       pattern: ^/(_(profiler|wdt)|css|images|js)/
       security: false
     main:
-      anonymous: true
+      anonymous: ~
       pattern: ^/
 
       # activate different ways to authenticate
@@ -28,6 +28,9 @@ security:
       logout:
         path: security_logout
         target: news_feed
+      guard:
+          authenticators:
+              - App\Security\LoginFormAuthenticator
       # https://symfony.com/doc/current/security/form_login_setup.html
 
   # Easy way to control access for large sections of your site
