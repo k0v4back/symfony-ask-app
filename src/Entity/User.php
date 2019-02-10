@@ -6,10 +6,14 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
+ * @Orm\Table("`user`")
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  */
 class User implements UserInterface, \Serializable
 {
+    const ROLE_USER = 'ROLE_USER';
+    const ROLE_ADMIN = 'ROLE_ADMIN';
+
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
@@ -51,6 +55,11 @@ class User implements UserInterface, \Serializable
      * @ORM\Column(type="string", length=100, nullable=true)
      */
     private $city;
+
+    /**
+     * @ORM\Column(type="string", length=30)
+     */
+    private $role;
 
     public function getId(): ?int
     {
@@ -157,11 +166,33 @@ class User implements UserInterface, \Serializable
         $this->country = $country;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getRole()
+    {
+        return $this->role;
+    }
+
+    /**
+     * @param mixed $role
+     */
+    public function setRole($role): void
+    {
+        $this->role = $role;
+    }
+
+
     public function getRoles()
     {
         return [
             'ROLE_USER'
         ];
+    }
+
+    public function __construct()
+    {
+        $this->role = [self::ROLE_USER];
     }
 
     public function getSalt()
@@ -176,7 +207,7 @@ class User implements UserInterface, \Serializable
 
     public function eraseCredentials()
     {
-        // TODO: Implement eraseCredentials() method.
+        return;
     }
 
 
@@ -184,16 +215,13 @@ class User implements UserInterface, \Serializable
     {
         return serialize([
             $this->id,
-            $this->name,
             $this->email,
             $this->password
         ]);
     }
-
     public function unserialize($serialized)
     {
         list($this->id,
-            $this->name,
             $this->email,
             $this->password) = unserialize($serialized);
     }
