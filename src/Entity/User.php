@@ -3,11 +3,12 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  */
-class User
+class User implements UserInterface, \Serializable
 {
     /**
      * @ORM\Id()
@@ -154,5 +155,46 @@ class User
     public function setCountry($country): void
     {
         $this->country = $country;
+    }
+
+    public function getRoles()
+    {
+        return [
+            'ROLE_USER'
+        ];
+    }
+
+    public function getSalt()
+    {
+        return null;
+    }
+
+    public function getUsername()
+    {
+        return $this->getName();
+    }
+
+    public function eraseCredentials()
+    {
+        // TODO: Implement eraseCredentials() method.
+    }
+
+
+    public function serialize()
+    {
+        return serialize([
+            $this->id,
+            $this->name,
+            $this->email,
+            $this->password
+        ]);
+    }
+
+    public function unserialize($serialized)
+    {
+        list($this->id,
+            $this->name,
+            $this->email,
+            $this->password) = unserialize($serialized);
     }
 }
