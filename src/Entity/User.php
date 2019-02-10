@@ -37,7 +37,7 @@ class User implements UserInterface, \Serializable
     private $password;
 
     /**
-     * @ORM\Column(type="string", length=30)
+     * @ORM\Column(type="string", length=30, nullable=true)
      */
     private $sex;
 
@@ -59,7 +59,7 @@ class User implements UserInterface, \Serializable
     /**
      * @ORM\Column(type="string", length=30)
      */
-    private $role;
+    private $roles;
 
     public function getId(): ?int
     {
@@ -166,33 +166,23 @@ class User implements UserInterface, \Serializable
         $this->country = $country;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getRole()
-    {
-        return $this->role;
-    }
-
-    /**
-     * @param mixed $role
-     */
-    public function setRole($role): void
-    {
-        $this->role = $role;
-    }
-
-
-    public function getRoles()
-    {
-        return [
-            'ROLE_USER'
-        ];
-    }
 
     public function __construct()
     {
-        $this->role = [self::ROLE_USER];
+        $this->roles = self::ROLE_USER;
+    }
+
+    public function getRoles()
+    {
+        return $this->roles;
+    }
+
+    /**
+     * @param array $roles
+     */
+    public function setRoles(array $roles): void
+    {
+        $this->roles = $roles;
     }
 
     public function getSalt()
