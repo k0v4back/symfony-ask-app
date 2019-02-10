@@ -174,13 +174,13 @@ class User implements UserInterface, \Serializable
 
     public function getRoles()
     {
-        return $this->roles;
+        return array($this->roles);
     }
 
     /**
-     * @param array $roles
+     * @param string $roles
      */
-    public function setRoles(array $roles): void
+    public function setRoles($roles): void
     {
         $this->roles = $roles;
     }

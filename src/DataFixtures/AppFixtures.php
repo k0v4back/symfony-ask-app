@@ -92,7 +92,7 @@ class AppFixtures extends Fixture
             $user->setAge($userData['age']);
             $user->setCountry($userData['country']);
             $user->setCity($userData['city']);
-            $user->setRole($userData['role']);
+            $user->setRoles($userData['role']);
 
             $manager->persist($user);
         }
