@@ -36,4 +36,11 @@ class RegisterController extends AbstractController
             'form' => $form->createView()
         ]);
     }
+
+    /**
+     * @Route("/logout", name="security_logout")
+     */
+    public function logout()
+    {
+    }
 }
