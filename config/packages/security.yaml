@@ -13,6 +13,8 @@ security:
       anonymous: ~
       pattern: ^/
 
+      http_basic: ~
+
       # activate different ways to authenticate
 
       #            http_basic: ~
