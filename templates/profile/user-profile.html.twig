@@ -7,9 +7,6 @@
         <link href="{{ asset('css/cabinet/cabinet.css') }}" rel="stylesheet"/>
     {% endblock %}
 
-    {#{{ dump(user) }}#}
-
-    <!--------------- center content! ----------------->
     <div class="container" style="margin-top: 200px">
         <div class="row">
 
@@ -31,8 +28,21 @@
                                                          alt="...">
                                                 </div>
                                                 <div class="infos">
-                                                    <h2>David Green</h2>
-                                                    <div class="location">Las Vegas, Nevada, U.S.</div>
+                                                    <h2>
+                                                        {% if user.fullName %}
+                                                            {{ user.fullName }}
+                                                        {% else %}
+                                                            {{ user.nick }}
+                                                        {% endif %}
+                                                    </h2>
+                                                    <div class="location">
+                                                        {% if user.city %}
+                                                            {{ user.city }}
+                                                        {% endif %}
+                                                        {% if user.country %}
+                                                            , {{ user.country }}
+                                                        {% endif %}
+                                                    </div>
                                                     <a href="" class="btn btn-primary m-2 btn-sm">Подписаться</a>
                                                     <a href="" class="btn btn-danger m-2 btn-sm">Отписаться</a>
 
