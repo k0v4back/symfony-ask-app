@@ -11,6 +11,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @Orm\Table("`user`")
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  * @UniqueEntity(fields="email", message="Такой email уже существует")
+ * @UniqueEntity(fields="nick", message="Такой ник уже существует")
  */
 class User implements UserInterface, \Serializable
 {
@@ -25,23 +26,29 @@ class User implements UserInterface, \Serializable
     private $id;
 
     /**
-     * @ORM\Column(type="string", length=100)
-     * @Assert\NotBlank()
-     * @Assert\Length(min=2, max="100")
+     * @ORM\Column(type="string", length=100, nullable=true)
+     * @Assert\Length(min=2, max=100)
      */
-    private $name;
+    private $fullName;
+
+    /**
+     * @ORM\Column(type="string", length=50, unique=true, nullable=true)
+     * @Assert\NotBlank()
+     * @Assert\Length(min=4, max=50)
+     */
+    private $nick;
 
     /**
      * @ORM\Column(type="string", length=100)
      * @Assert\NotBlank()
-     * @Assert\Length(min=5, max="100")
+     * @Assert\Length(min=5, max=100)
      */
     private $email;
 
     /**
      * @ORM\Column(type="string", length=100)
      * @Assert\NotBlank()
-     * @Assert\Length(min="5", max="100")
+     * @Assert\Length(min=5, max=100)
      */
     private $password;
 
@@ -76,16 +83,36 @@ class User implements UserInterface, \Serializable
         return $this->id;
     }
 
-    public function getName(): ?string
+    /**
+     * @return mixed
+     */
+    public function getFullName()
     {
-        return $this->name;
+        return $this->fullName;
     }
 
-    public function setName(string $name): self
+    /**
+     * @param mixed $fullName
+     */
+    public function setFullName($fullName): void
     {
-        $this->name = $name;
+        $this->fullName = $fullName;
+    }
 
-        return $this;
+    /**
+     * @return mixed
+     */
+    public function getNick()
+    {
+        return $this->nick;
+    }
+
+    /**
+     * @param mixed $nick
+     */
+    public function setNick($nick): void
+    {
+        $this->nick = $nick;
     }
 
     public function getSex(): ?string
@@ -180,6 +207,7 @@ class User implements UserInterface, \Serializable
     public function __construct()
     {
         $this->roles = self::ROLE_USER;
+        $this->nick = null;
     }
 
     public function getRoles()
@@ -202,7 +230,7 @@ class User implements UserInterface, \Serializable
 
     public function getUsername()
     {
-        return $this->getName();
+        return $this->getNick();
     }
 
     public function eraseCredentials()
@@ -215,7 +243,7 @@ class User implements UserInterface, \Serializable
     {
         return serialize([
             $this->id,
-            $this->name,
+            $this->nick,
             $this->password
         ]);
     }
@@ -223,7 +251,7 @@ class User implements UserInterface, \Serializable
     public function unserialize($serialized)
     {
         list($this->id,
-            $this->name,
+            $this->nick,
             $this->password) = unserialize($serialized);
     }
 }
