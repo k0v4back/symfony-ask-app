@@ -49,14 +49,29 @@
                                                         {% endif %}
                                                     </div>
 
-                                                    {% if app.user.id != user.id %}
-                                                        {% if user.followers.contains(app.user) == false %}
-                                                            <a href="{{ path('following_follow', {'id': user.id}) }}"
-                                                               class="btn btn-primary m-2 btn-sm">Подписаться</a>
-                                                        {% else %}
-                                                            <a href="{{ path('follow_unfollow', {'id': user.id}) }}" class="btn btn-danger m-2 btn-sm">Отписаться</a>
+
+                                                    <div id="follow">
+                                                        {% if app.user %}
+                                                            {% if app.user.id != user.id %}
+                                                                {% if user.followers.contains(app.user) == false %}
+                                                                    {#<a href="{{ path('following_follow', {'id': user.id}) }}" class="btn btn-primary m-2 btn-sm follow">Подписаться</a>#}
+                                                                    <button type="button"
+                                                                            class="btn btn-primary m-2 btn-sm follow"
+                                                                            id="follow">Подписаться
+                                                                    </button>
+                                                                {% else %}
+                                                                    {#<a href="{{ path('follow_unfollow', {'id': user.id}) }}" class="btn btn-danger m-2 btn-sm unfollow">Отписаться</a>#}
+                                                                    <button type="button"
+                                                                            class="btn btn-danger m-2 btn-sm unfollow"
+                                                                            id="unfollow">Отписаться
+                                                                    </button>
+                                                                {% endif %}
+                                                                {#<button type="button" class="btn btn-danger m-2 btn-sm unfollow" id="unfollow" >Отписаться</button>#}
+
+                                                            {% endif %}
                                                         {% endif %}
-                                                    {% endif %}
+                                                    </div>
+
 
                                                     <ul class="mt-2">
                                                         <li>
@@ -110,6 +125,10 @@
                     </div>
 
 
+                    <button class="ajax">click me!</button>
+                    <div id="ajax-results">here comes the result</div>
+
+
                 </div>
                 <nav aria-label="Page navigation example">
                     <ul class="pagination justify-content-center">
@@ -133,7 +152,57 @@
 
         </div>
     </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script>
+        $(document).on('click', 'button.follow', function () {
+            that = $(this);
+            $.ajax({
+                url: '{{ (path('following_follow', {'id': user.id})) }}',
+                type: "POST",
+                dataType: "json",
+                data: {
+                    "data": "some_var_value"
+                },
+                async: true,
+                success: function (data) {
+                    // console.log(data)
+                    // $('div#ajax-results').html(data.output);
+                    $("button#follow").css("display", "none");
+                    $("button#unfollow").css("display", "block");
+
+                }
+            });
+            return false;
+
+        });
 
 
+        $(document).on('click', 'button.unfollow', function () {
+            that = $(this);
+            $.ajax({
+                url: '{{ (path('follow_unfollow', {'id': user.id})) }}',
+                type: "POST",
+                dataType: "json",
+                data: {
+                    "data": "some_var_value"
+                },
+                async: true,
+                success: function (data) {
+                    // console.log(data)
+                    // $('div#ajax-results').html(data.output);
+                    $("button#follow").css("display", "block");
+                    $("button#unfollow").css("display", "none");
+
+                }
+            });
+            return false;
+
+        });
+
+    </script>
 
 {% endblock %}
