@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -18,6 +19,15 @@ class UserSettingsType extends AbstractType
             ->add('fullName', TextType::class)
             ->add('country', TextType::class)
             ->add('city', TextType::class)
+            ->add('avatar',
+                FileType::class, [
+                    'label' => 'Фото',
+                    'attr' => [
+                        'id' => 'avatar_input',
+                        'onchange' => 'previewFile()'
+                    ]
+                ]
+            )
             ->add('Сохранить', SubmitType::class);
     }
 

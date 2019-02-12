@@ -20,11 +20,28 @@
 
                         {{ form_row(form.city, {'label': 'Город'}) }}
 
+                        {{ form_row(form.avatar, {'label': 'Аватар'}) }}
+                        <div>
+                            <img src="" alt="" id="avatar" style="width: 300px">
+                        </div>
+                        <br>
                         {{ form_end(form) }}
                     </div>
                 </div>
             </div>
+            <div>
+
+            </div>
+
         </div>
+
     </div>
     </body>
+{% endblock %}
+
+{% block javascripts %}
+
+    {{ parent() }}
+    <script src="{{ asset('js/photo/avatar.js') }}"></script>
+
 {% endblock %}
