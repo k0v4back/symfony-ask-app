@@ -21,8 +21,8 @@ security:
       # https://symfony.com/doc/current/security.html#a-configuring-how-your-users-will-authenticate
 
       form_login:
-        check_path: security_login
-        login_path: security_login
+        check_path: app_login
+        login_path: app_login
         csrf_token_generator: security.csrf.token_manager
         default_target_path: news_feed
         username_parameter: _email
@@ -40,3 +40,5 @@ security:
   access_control:
   #         - { path: ^/micro-post, roles: ROLE_USER }
   # - { path: ^/profile, roles: ROLE_USER }
+  role_hierarchy:
+    ROLE_ADMIN: ROLE_USER

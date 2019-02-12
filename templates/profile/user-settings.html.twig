@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <body style="background-color: #e6e6e6">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
+                <div class="card card-signin my-5">
+                    <div class="card-body">
+                        <h5 class="card-title text-center">Редактирование основной иформации профиля</h5>
+                        {{ form_start(form) }}
+
+                        {{ form_row(form.nick, {'label': 'Ник'}) }}
+
+                        {{ form_row(form.fullName, {'label': 'Полное имя'}) }}
+
+                        {{ form_row(form.age, {'label': 'Возраст'}) }}
+
+                        {{ form_row(form.country, {'label': 'Страна'}) }}
+
+                        {{ form_row(form.city, {'label': 'Город'}) }}
+
+                        {{ form_end(form) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </body>
+{% endblock %}
