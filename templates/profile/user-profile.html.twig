@@ -24,9 +24,11 @@
                                             <div class="col-xl-4 col-md-4 d-flex justify-content-center">
                                                 <div class="image-default">
                                                     {% if user.avatar %}
-                                                        <img src="{{ asset('upload/user_photo/' ~ user.avatar) }}" class="rounded-circle"/>
+                                                        <img src="{{ asset('upload/user_photo/' ~ user.avatar) }}"
+                                                             class="rounded-circle"/>
                                                     {% else %}
-                                                        <img src="{{ asset('upload/user_photo/default.jpg') }}" class="rounded-circle" style="width:120px; height: 120px"/>
+                                                        <img src="{{ asset('upload/user_photo/default.jpg') }}"
+                                                             class="rounded-circle" style="width:120px; height: 120px"/>
                                                     {% endif %}
 
                                                 </div>
@@ -46,8 +48,15 @@
                                                             , {{ user.country }}
                                                         {% endif %}
                                                     </div>
-                                                    <a href="" class="btn btn-primary m-2 btn-sm">Подписаться</a>
-                                                    <a href="" class="btn btn-danger m-2 btn-sm">Отписаться</a>
+
+                                                    {% if app.user.id != user.id %}
+                                                        {% if user.followers.contains(app.user) == false %}
+                                                            <a href="{{ path('following_follow', {'id': user.id}) }}"
+                                                               class="btn btn-primary m-2 btn-sm">Подписаться</a>
+                                                        {% else %}
+                                                            <a href="{{ path('follow_unfollow', {'id': user.id}) }}" class="btn btn-danger m-2 btn-sm">Отписаться</a>
+                                                        {% endif %}
+                                                    {% endif %}
 
                                                     <ul class="mt-2">
                                                         <li>

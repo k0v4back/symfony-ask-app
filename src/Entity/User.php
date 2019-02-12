@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -77,6 +78,24 @@ class User implements UserInterface, \Serializable
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $avatar;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\User", mappedBy="following")
+     */
+    private $followers;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\User", inversedBy="followers")
+     * @ORM\JoinTable(name="following",
+     *     joinColumns={
+     *      @ORM\JoinColumn(name="user_id", referencedColumnName="id")
+     *     },
+     *     inverseJoinColumns={
+     *      @ORM\JoinColumn(name="following_user_id", referencedColumnName="id")
+     *     }
+     *  )
+     */
+    private $following;
 
     /**
      * @ORM\Column(type="string", length=30)
@@ -225,10 +244,45 @@ class User implements UserInterface, \Serializable
         $this->avatar = $avatar;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getFollowers()
+    {
+        return $this->followers;
+    }
+
+    /**
+     * @param mixed $followers
+     */
+    public function setFollowers($followers): void
+    {
+        $this->followers = $followers;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getFollowing()
+    {
+        return $this->following;
+    }
+
+    /**
+     * @param mixed $following
+     */
+    public function setFollowing($following): void
+    {
+        $this->following = $following;
+    }
+
+
     public function __construct()
     {
         $this->roles = self::ROLE_USER;
         $this->nick = null;
+        $this->followers = new ArrayCollection();
+        $this->following = new ArrayCollection();
     }
 
     public function getRoles()
