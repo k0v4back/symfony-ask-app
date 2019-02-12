@@ -23,9 +23,12 @@
                                             </div>
                                             <div class="col-xl-4 col-md-4 d-flex justify-content-center">
                                                 <div class="image-default">
-                                                    <img class="rounded-circle"
-                                                         src="http://bootdey.com/img/Content/avatar/avatar5.png"
-                                                         alt="...">
+                                                    {% if user.avatar %}
+                                                        <img src="{{ asset('upload/user_photo/' ~ user.avatar) }}" class="rounded-circle"/>
+                                                    {% else %}
+                                                        <img src="{{ asset('upload/user_photo/default.jpg') }}" class="rounded-circle" style="width:120px; height: 120px"/>
+                                                    {% endif %}
+
                                                 </div>
                                                 <div class="infos">
                                                     <h2>

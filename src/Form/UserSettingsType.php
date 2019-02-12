@@ -22,6 +22,7 @@ class UserSettingsType extends AbstractType
             ->add('avatar',
                 FileType::class, [
                     'label' => 'Фото',
+                    'data_class' => null,
                     'attr' => [
                         'id' => 'avatar_input',
                         'onchange' => 'previewFile()'

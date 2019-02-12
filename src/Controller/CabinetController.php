@@ -24,7 +24,8 @@ class CabinetController extends AbstractController
         return $this->render(
             'profile/user-profile.html.twig',
             [
-                'user' => $user
+                'user' => $user,
+                'path' => $this->getParameter('avatar_directory')
             ]
         );
     }
@@ -47,9 +48,6 @@ class CabinetController extends AbstractController
 
             /** @var UploadedFile $file */
             $file = $user->getAvatar();
-//            $file = $form['name']->get();
-
-//            var_dump($file);die();
 
             $fileName = $fileUploader->upload($file);
 
