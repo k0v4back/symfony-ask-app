@@ -19,6 +19,7 @@ class AppFixtures extends Fixture
             'age' => '10',
             'country' => 'Russia',
             'city' => 'Moscow',
+            'avatar' => 'default.jpg',
             'role' => User::ROLE_USER
         ],
         [
@@ -30,6 +31,7 @@ class AppFixtures extends Fixture
             'age' => '31',
             'country' => 'Russia',
             'city' => 'Moscow',
+            'avatar' => 'default.jpg',
             'role' => User::ROLE_USER
         ],
         [
@@ -41,6 +43,7 @@ class AppFixtures extends Fixture
             'age' => '52',
             'country' => 'Америка',
             'city' => 'Moscow',
+            'avatar' => 'default.jpg',
             'role' => User::ROLE_USER
         ],
         [
@@ -52,6 +55,7 @@ class AppFixtures extends Fixture
             'age' => '50',
             'country' => 'Украина',
             'city' => 'Киев',
+            'avatar' => 'default.jpg',
             'role' => User::ROLE_USER
         ],
         [
@@ -63,6 +67,7 @@ class AppFixtures extends Fixture
             'age' => '17',
             'country' => 'Russia',
             'city' => 'Kaliningrad',
+            'avatar' => 'default.jpg',
             'role' => User::ROLE_ADMIN
         ]
 

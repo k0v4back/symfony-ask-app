@@ -73,18 +73,104 @@
                                                     </div>
 
 
+                                                    <div class="modal fade" id="following" tabindex="-1" role="dialog"
+                                                         aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                        <div class="modal-dialog" role="document">
+                                                            <div class="modal-content">
+                                                                <div class="modal-header">
+                                                                    <h5 class="modal-title" id="exampleModalLabel">
+                                                                        Подписчики</h5>
+                                                                    <button type="button" class="close"
+                                                                            data-dismiss="modal" aria-label="Close">
+                                                                        <span aria-hidden="true">&times;</span>
+                                                                    </button>
+                                                                </div>
+                                                                <div class="modal-body">
+                                                                    <ul class="list-group list-group-flush">
+                                                                        {% for following in user.following %}
+                                                                            <li class="list-group-item">
+                                                                                {% if user.avatar %}
+                                                                                    <img src="{{ asset('upload/user_photo/' ~ user.avatar) }}"
+                                                                                         class="rounded-circle"/>
+                                                                                {% else %}
+                                                                                    <img src="{{ asset('upload/user_photo/default.jpg') }}"
+                                                                                         class="rounded-circle" style="width:50px; height: 50px"/>
+                                                                                {% endif %}
+                                                                                <a href="{{ path('profile_view', {'nick':following.nick}) }}">{{ following.nick }}</a>
+                                                                            </li>
+                                                                        {% endfor %}
+                                                                    </ul>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+
+                                                    <div class="modal fade" id="followers" tabindex="-1" role="dialog"
+                                                         aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                        <div class="modal-dialog" role="document">
+                                                            <div class="modal-content">
+                                                                <div class="modal-header">
+                                                                    <h5 class="modal-title" id="exampleModalLabel">
+                                                                        Подписки</h5>
+                                                                    <button type="button" class="close"
+                                                                            data-dismiss="modal" aria-label="Close">
+                                                                        <span aria-hidden="true">&times;</span>
+                                                                    </button>
+                                                                </div>
+                                                                <div class="modal-body">
+                                                                    <ul class="list-group list-group-flush">
+                                                                        {% for followers in user.followers %}
+                                                                            <li class="list-group-item">
+                                                                                {% if user.avatar %}
+                                                                                <img src="{{ asset('upload/user_photo/' ~ user.avatar) }}"
+                                                                                     class="rounded-circle"/>
+                                                                                {% else %}
+                                                                                    <img src="{{ asset('upload/user_photo/default.jpg') }}"
+                                                                                         class="rounded-circle" style="width:50px; height: 50px"/>
+                                                                                {% endif %}
+                                                                                <a href="{{ path('profile_view', {'nick':followers.nick}) }}">{{ followers.nick }}</a>
+                                                                            </li>
+                                                                        {% endfor %}
+                                                                    </ul>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+
                                                     <ul class="mt-2">
                                                         <li>
-                                                            <div class="counter">246</div>
-                                                            <div class="heading">Friends</div>
+                                                            <div class="counter">
+                                                                {% if user.following %}
+                                                                    <div data-toggle="modal" data-target="#following">
+                                                                        {{ user.following|length }}
+                                                                    </div>
+                                                                {% else %}
+                                                                    <div data-toggle="modal" data-target="#following">
+                                                                        0
+                                                                    </div>
+                                                                {% endif %}
+                                                            </div>
+                                                            <div class="heading" data-toggle="modal"
+                                                                 data-target="#following">Подписчиков
+                                                            </div>
                                                         </li>
                                                         <li>
-                                                            <div class="counter">30</div>
-                                                            <div class="heading">Online</div>
-                                                        </li>
-                                                        <li class="mb-2">
-                                                            <div class="counter">30</div>
-                                                            <div class="heading">Online</div>
+                                                            <div class="counter">
+                                                                {% if user.followers %}
+                                                                    <div data-toggle="modal" data-target="#followers">
+                                                                        {{ user.followers|length }}
+                                                                    </div>
+                                                                {% else %}
+                                                                    <div data-toggle="modal" data-target="#followers">
+                                                                        0
+                                                                    </div>
+                                                                {% endif %}
+                                                            </div>
+                                                            <div class="heading" data-toggle="modal"
+                                                                 data-target="#followers">Подписки
+                                                            </div>
                                                         </li>
                                                         <br>
                                                     </ul>
@@ -123,11 +209,6 @@
                         <hr>
 
                     </div>
-
-
-                    <button class="ajax">click me!</button>
-                    <div id="ajax-results">here comes the result</div>
-
 
                 </div>
                 <nav aria-label="Page navigation example">
