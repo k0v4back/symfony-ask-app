@@ -185,7 +185,16 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
+
+
+                        <div>
+                            <button class="btn btn-success btn-lg" id="button">
+                                Задать вопрос
+                            </button></div>
+
+
+
+                        <div class="col-sm-9 col-md-7 col-lg-5 mx-auto question" id="block" style="display: none;">
                             <div class="card card-signin my-5">
                                 <div class="card-body">
                                     <h5 class="card-title text-center">Задать вопрос</h5>
@@ -296,6 +305,13 @@
             });
             return false;
 
+        });
+
+
+        $('#button').on('click', function(e) {
+            $('#block').slideToggle(function() {
+                $(e.target).text($(this).is(':visible') ? 'Скрыть' : 'Задать вопрос');
+            });
         });
 
     </script>
