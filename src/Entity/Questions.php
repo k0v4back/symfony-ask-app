@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\QuestionsRepository")
@@ -28,6 +29,13 @@ class Questions
      * @ORM\Column(type="integer")
      */
     private $to_asked;
+
+    /**
+     * @ORM\Column(type="text")
+     * @Assert\NotBlank()
+     * @Assert\Length(min=10, max=500)
+     */
+    private $text;
 
     /**
      * @ORM\Column(type="string", length=100)
@@ -73,6 +81,16 @@ class Questions
     public function setToAsked($to_asked): void
     {
         $this->to_asked = $to_asked;
+    }
+
+    public function getText()
+    {
+        return $this->text;
+    }
+
+    public function setText($text): void
+    {
+        $this->text = $text;
     }
 
     public function getTime(): ?string

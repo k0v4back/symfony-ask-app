@@ -185,6 +185,20 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
+                            <div class="card card-signin my-5">
+                                <div class="card-body">
+                                    <h5 class="card-title text-center">Задать вопрос</h5>
+                                    {{ form_start(form_question) }}
+
+                                    {{ form_row(form_question.text, {'label': 'Вопрос'}) }}
+
+                                    {{ form_row(form_question.anon, {'label': 'Анонимность'}) }}
+                                    <br>
+                                    {{ form_end(form_question) }}
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <hr>

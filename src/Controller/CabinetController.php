@@ -2,7 +2,9 @@
 
 namespace App\Controller;
 
+use App\Entity\Questions;
 use App\Entity\User;
+use App\Form\QuestionFormType;
 use App\Form\UserSettingsType;
 use App\Service\FileUploader;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
@@ -19,13 +21,30 @@ class CabinetController extends AbstractController
     /**
      * @Route("/{nick}", name="profile_view")
      */
-    public function userProfile(User $user)
+    public function userProfile(User $user, Request $request)
     {
+        $questions = new Questions();
+        $form = $this->createForm(QuestionFormType::class, $questions);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $questions->setWhoAsked($this->getUser()->getId());
+            $questions->setToAsked($user->getId());
+            $questions->setTime(time());
+            $questions->setStatus(Questions::NOT_ANSWERED);
+            $questions->setAnon($form->get('anon')->getData());
+
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($questions);
+            $em->flush();
+        }
         return $this->render(
             'profile/user-profile.html.twig',
             [
                 'user' => $user,
-                'path' => $this->getParameter('avatar_directory')
+                'path' => $this->getParameter('avatar_directory'),
+                'form_question' => $form->createView()
             ]
         );
     }
