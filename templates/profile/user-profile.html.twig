@@ -94,7 +94,8 @@
                                                                                          class="rounded-circle"/>
                                                                                 {% else %}
                                                                                     <img src="{{ asset('upload/user_photo/default.jpg') }}"
-                                                                                         class="rounded-circle" style="width:50px; height: 50px"/>
+                                                                                         class="rounded-circle"
+                                                                                         style="width:50px; height: 50px"/>
                                                                                 {% endif %}
                                                                                 <a href="{{ path('profile_view', {'nick':following.nick}) }}">{{ following.nick }}</a>
                                                                             </li>
@@ -123,11 +124,12 @@
                                                                         {% for followers in user.followers %}
                                                                             <li class="list-group-item">
                                                                                 {% if user.avatar %}
-                                                                                <img src="{{ asset('upload/user_photo/' ~ user.avatar) }}"
-                                                                                     class="rounded-circle"/>
+                                                                                    <img src="{{ asset('upload/user_photo/' ~ user.avatar) }}"
+                                                                                         class="rounded-circle"/>
                                                                                 {% else %}
                                                                                     <img src="{{ asset('upload/user_photo/default.jpg') }}"
-                                                                                         class="rounded-circle" style="width:50px; height: 50px"/>
+                                                                                         class="rounded-circle"
+                                                                                         style="width:50px; height: 50px"/>
                                                                                 {% endif %}
                                                                                 <a href="{{ path('profile_view', {'nick':followers.nick}) }}">{{ followers.nick }}</a>
                                                                             </li>
@@ -186,31 +188,35 @@
                             </div>
                         </div>
 
-
-                        <div>
-                            <button class="btn btn-success btn-lg" id="button">
-                                Задать вопрос
-                            </button></div>
-
-
-
-                        <div class="col-sm-9 col-md-7 col-lg-5 mx-auto question" id="block" style="display: none;">
-                            <div class="card card-signin my-5">
-                                <div class="card-body">
-                                    <h5 class="card-title text-center">Задать вопрос</h5>
-                                    {{ form_start(form_question) }}
-
-                                    {{ form_row(form_question.text, {'label': 'Вопрос'}) }}
-
-                                    {{ form_row(form_question.anon, {'label': 'Анонимность'}) }}
-                                    <br>
-                                    {{ form_end(form_question) }}
+                        {% if app.user %}
+                            {% if app.user.id != user.id %}
+                                <div>
+                                    <button class="btn btn-success btn-lg" id="button">
+                                        Задать вопрос
+                                    </button>
                                 </div>
-                            </div>
-                        </div>
+                                <div class="col-sm-9 col-md-7 col-lg-5 mx-auto question" id="block"
+                                     style="display: none;">
+                                    <div class="card card-signin my-5">
+                                        <div class="card-body">
+                                            <h5 class="card-title text-center">Задать вопрос</h5>
+                                            {{ form_start(form_question) }}
+
+                                            {{ form_row(form_question.text, {'label': 'Вопрос'}) }}
+
+                                            {{ form_row(form_question.anon, {'label': 'Анонимность'}) }}
+                                            <br>
+                                            {{ form_end(form_question) }}
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endif %}
+                        {% endif %}
+
                     </div>
                 </div>
                 <hr>
+
 
                 <!-- Tab panes -->
                 <div class="tab-content">
@@ -308,8 +314,8 @@
         });
 
 
-        $('#button').on('click', function(e) {
-            $('#block').slideToggle(function() {
+        $('#button').on('click', function (e) {
+            $('#block').slideToggle(function () {
                 $(e.target).text($(this).is(':visible') ? 'Скрыть' : 'Задать вопрос');
             });
         });
