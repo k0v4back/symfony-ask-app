@@ -4,12 +4,13 @@ namespace App\Controller;
 
 use App\Entity\Questions;
 use App\Entity\User;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
+ * @Security("is_granted('ROLE_USER')")
  * @Route("/questions")
  */
 class QuestionsController extends AbstractController
@@ -19,14 +20,17 @@ class QuestionsController extends AbstractController
      */
     public function showMyQuestions(User $user)
     {
-        $em = $this->getDoctrine()->getManager();
-        $questions = $em->getRepository(Questions::class)->findAllByForOwner($user);
+        if ($user->getId() == $this->getUser()->getId()) {
+            $em = $this->getDoctrine()->getManager();
+            $questions = $em->getRepository(Questions::class)->findAllByForOwner($user);
 
+            return $this->render('questions/main-page.html.twig', [
+                'questions' => $questions,
+                'user' => $user
+            ]);
+        }
+        return $this->redirectToRoute('news_feed');
 
-        return $this->render('questions/main-page.html.twig', [
-            'questions' => $questions,
-            'user' => $user
-        ]);
     }
 
     /**
@@ -34,13 +38,16 @@ class QuestionsController extends AbstractController
      */
     public function showNotAnsweredQuestions(User $user, Request $request)
     {
-        $em = $this->getDoctrine()->getManager();
-        $questions = $em->getRepository(Questions::class)->findAllStatusAnswered($user);
+        if ($user->getId() == $this->getUser()->getId()) {
+            $em = $this->getDoctrine()->getManager();
+            $questions = $em->getRepository(Questions::class)->findAllStatusAnswered($user);
 
-        return $this->render('questions/main-page.html.twig', [
-            'questions' => $questions,
-            'user' => $user
-        ]);
+            return $this->render('questions/main-page.html.twig', [
+                'questions' => $questions,
+                'user' => $user
+            ]);
+        }
+        return $this->redirectToRoute('news_feed');
     }
 
     /**
@@ -48,12 +55,15 @@ class QuestionsController extends AbstractController
      */
     public function showAnsweredQuestions(User $user, Request $request)
     {
-        $em = $this->getDoctrine()->getManager();
-        $questions = $em->getRepository(Questions::class)->findAllStatusNotAnswered($user);
+        if ($user->getId() == $this->getUser()->getId()) {
+            $em = $this->getDoctrine()->getManager();
+            $questions = $em->getRepository(Questions::class)->findAllStatusNotAnswered($user);
 
-        return $this->render('questions/main-page.html.twig', [
-            'questions' => $questions,
-            'user' => $user
-        ]);
+            return $this->render('questions/main-page.html.twig', [
+                'questions' => $questions,
+                'user' => $user
+            ]);
+        }
+        return $this->redirectToRoute('news_feed');
     }
 }
