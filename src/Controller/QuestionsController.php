@@ -2,8 +2,10 @@
 
 namespace App\Controller;
 
+use App\Entity\Answer;
 use App\Entity\Questions;
 use App\Entity\User;
+use App\Form\AnswerType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -18,19 +20,62 @@ class QuestionsController extends AbstractController
     /**
      * @Route("/{nick}", name="questions_get_all")
      */
-    public function showMyQuestions(User $user)
+    public function showMyQuestions(User $user, Request $request)
     {
         if ($user->getId() == $this->getUser()->getId()) {
+
             $em = $this->getDoctrine()->getManager();
-            $questions = $em->getRepository(Questions::class)->findAllByForOwner($user);
+            $answer = $em->getRepository(Questions::class)->findAllByForOwner($user);
 
             return $this->render('questions/main-page.html.twig', [
-                'questions' => $questions,
+                'questions' => $answer,
                 'user' => $user
             ]);
         }
         return $this->redirectToRoute('news_feed');
 
+    }
+
+    /**
+     * @Route("/show/{id}", name="question_show_by_id")
+     */
+    public function showOneQuestion(Questions $question, Request $request)
+    {
+        $answer = new Answer();
+
+        $form = $this->createForm(AnswerType::class, $answer);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $em = $this->getDoctrine()->getManager();
+            $user = $em->getRepository(Questions::class)->find($question->getId());
+            $question = $em->getRepository(Questions::class)->find($question->getId());
+
+            $question->setStatus(Questions::ANSWERED);
+
+            $answer->setUserId($user->getToAsked());
+            $answer->setToUserId($question->getWhoAsked());
+            $answer->setQuestionId($question->getId());
+            $answer->setTime(time());
+
+            $question->setStatus(Questions::ANSWERED);
+            $em->flush();
+
+            return $this->redirectToRoute('questions_get_all',
+                array(
+                    'nick' => $this->getUser()->getNick()
+                )
+            );
+
+        }
+
+        return $this->render('questions/one-question.html.twig',
+            [
+                'question' => $question,
+                'form' => $form->createView()
+            ]
+        );
     }
 
     /**
@@ -40,10 +85,10 @@ class QuestionsController extends AbstractController
     {
         if ($user->getId() == $this->getUser()->getId()) {
             $em = $this->getDoctrine()->getManager();
-            $questions = $em->getRepository(Questions::class)->findAllStatusAnswered($user);
+            $answer = $em->getRepository(Questions::class)->findAllStatusAnswered($user);
 
             return $this->render('questions/main-page.html.twig', [
-                'questions' => $questions,
+                'questions' => $answer,
                 'user' => $user
             ]);
         }
@@ -57,10 +102,10 @@ class QuestionsController extends AbstractController
     {
         if ($user->getId() == $this->getUser()->getId()) {
             $em = $this->getDoctrine()->getManager();
-            $questions = $em->getRepository(Questions::class)->findAllStatusNotAnswered($user);
+            $answer = $em->getRepository(Questions::class)->findAllStatusNotAnswered($user);
 
             return $this->render('questions/main-page.html.twig', [
-                'questions' => $questions,
+                'questions' => $answer,
                 'user' => $user
             ]);
         }

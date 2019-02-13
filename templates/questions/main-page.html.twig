@@ -22,10 +22,9 @@
                 {% for question in questions %}
                     <div class="card">
                         <div class="card-body">
-                            {#<h5 class="card-title">{{ question.text }}</h5>#}
+                            <b>Вопрос: </b>
                             <p class="card-text">{{ question.text }}</p>
-                            <a href="#" class="card-link">Card link</a>
-                            <a href="#" class="card-link">Another link</a>
+                            <a href="{{ path('question_show_by_id', {'id': question.id}) }}" class="btn btn-light card-link">Ответить</a>
                         </div>
                     </div>
                     <br>

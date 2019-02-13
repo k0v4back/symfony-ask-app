@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <a href="{{ path('questions_get_all', {'nick': app.user.nick}) }}" class="btn btn-warning mt-4 ml-4">Вернуться назад</a>
+
+    <div class="col-sm-9 col-md-7 col-lg-5 mx-auto question">
+        <div class="card card-signin my-5">
+            <div class="card-body">
+                <h5 class="card-title text-center">Ответить на вопрос</h5>
+                {{ form_start(form) }}
+
+                {{ form_widget(form) }}
+
+                {{ form_end(form) }}
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

@@ -40,7 +40,7 @@ class QuestionsRepository extends ServiceEntityRepository
             ->where('q.to_asked IN (:user_id)')
             ->setParameter('user_id', $user)
             ->andWhere('q.status = :statusAnswered')
-            ->setParameter('statusAnswered', Questions::ANSWERED)
+            ->setParameter('statusAnswered', Questions::NOT_ANSWERED)
             ->orderBy('q.time', 'DESC')
             ->getQuery()
             ->getResult();
@@ -54,7 +54,7 @@ class QuestionsRepository extends ServiceEntityRepository
             ->where('q.to_asked IN (:user_id)')
             ->setParameter('user_id', $user)
             ->andWhere('q.status = :statusAnswered')
-            ->setParameter('statusAnswered', Questions::NOT_ANSWERED)
+            ->setParameter('statusAnswered', Questions::ANSWERED)
             ->orderBy('q.time', 'DESC')
             ->getQuery()
             ->getResult();
