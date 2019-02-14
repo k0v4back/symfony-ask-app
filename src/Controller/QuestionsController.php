@@ -41,6 +41,10 @@ class QuestionsController extends AbstractController
      */
     public function showOneQuestion(Questions $question, Request $request)
     {
+        if ($question->getToAsked() !== $this->getUser()->getId()) {
+            return $this->redirectToRoute('news_feed');
+        }
+
         $answer = new Answer();
 
         $form = $this->createForm(AnswerType::class, $answer);
@@ -97,12 +101,15 @@ class QuestionsController extends AbstractController
      */
     public function editAnswer(Questions $question, Request $request)
     {
+        if ($question->getToAsked() !== $this->getUser()->getId()) {
+            return $this->redirectToRoute('news_feed');
+        }
+
         $em = $this->getDoctrine()->getManager();
 
         /** @var Answer $answer */
         $answer = $em->getRepository(Answer::class)->findByField($question->getId())[0];
 
-//        var_dump($answer);die();
 
         $form = $this->createForm(AnswerType::class, $answer);
         $form->handleRequest($request);
