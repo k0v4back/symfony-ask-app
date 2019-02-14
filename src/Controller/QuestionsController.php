@@ -46,6 +46,17 @@ class QuestionsController extends AbstractController
         $form = $this->createForm(AnswerType::class, $answer);
         $form->handleRequest($request);
 
+        $em = $this->getDoctrine()->getManager();
+        $question = $em->getRepository(Questions::class)->find($question->getId());
+
+        if ($question->getStatus() === Questions::ANSWERED) {
+            return $this->redirectToRoute('edit_answer',
+                array(
+                    'id' => $question->getId()
+                )
+            );
+        }
+
         if ($form->isSubmitted() && $form->isValid()) {
 
             $em = $this->getDoctrine()->getManager();
@@ -60,6 +71,8 @@ class QuestionsController extends AbstractController
             $answer->setTime(time());
 
             $question->setStatus(Questions::ANSWERED);
+
+            $em->persist($answer);
             $em->flush();
 
             return $this->redirectToRoute('questions_get_all',
@@ -77,6 +90,44 @@ class QuestionsController extends AbstractController
             ]
         );
     }
+
+
+    /**
+     * @Route("/edit-answer/{id}", name="edit_answer")
+     */
+    public function editAnswer(Questions $question, Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        /** @var Answer $answer */
+        $answer = $em->getRepository(Answer::class)->findByField($question->getId())[0];
+
+//        var_dump($answer);die();
+
+        $form = $this->createForm(AnswerType::class, $answer);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $answer->setText($answer->getText());
+            $em->flush();
+
+            return $this->redirectToRoute('questions_get_all',
+                array(
+                    'nick' => $this->getUser()->getNick()
+                )
+            );
+        }
+
+
+        return $this->render(
+            'questions/edit-answer.html.twig',
+            [
+                'form' => $form->createView(),
+                'question' => $question->getText()
+            ]
+        );
+    }
+
 
     /**
      * @Route("/{nick}/answered", name="questions_get_answered")
