@@ -41,6 +41,13 @@ class Answer
      */
     private $text;
 
+
+    /**
+     * @ORM\OneToOne(targetEntity="App\Entity\Questions", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(name="answer_text_id", referencedColumnName="id")
+     */
+    private $question;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -102,5 +109,13 @@ class Answer
         $this->text = $text;
 
         return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getAnswer()
+    {
+        return $this->answer;
     }
 }

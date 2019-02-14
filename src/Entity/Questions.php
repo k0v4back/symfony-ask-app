@@ -52,6 +52,13 @@ class Questions
      */
     private $anon;
 
+
+    /**
+     * @ORM\OneToOne(targetEntity="App\Entity\Answer")
+     * @ORM\JoinColumn(name="question_text_id", referencedColumnName="id", onDelete="CASCADE")
+     */
+    private $answer;
+
     public function getId(): ?int
     {
         return $this->id;
