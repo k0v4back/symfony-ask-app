@@ -23,7 +23,7 @@ final class Version20190211164050 extends AbstractMigration
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'postgresql', 'Migration can only be executed safely on \'postgresql\'.');
 
         $this->addSql('ALTER TABLE "user" ALTER full_name DROP NOT NULL');
-        $this->addSql('CREATE UNIQUE INDEX UNIQ_8D93D649290B2F37 ON "user" (nick)');
+        $this->addSql('ALTER TABLE "user" ADD nick VARCHAR(100)');
     }
 
     public function down(Schema $schema) : void
@@ -32,7 +32,7 @@ final class Version20190211164050 extends AbstractMigration
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'postgresql', 'Migration can only be executed safely on \'postgresql\'.');
 
         $this->addSql('CREATE SCHEMA public');
-        $this->addSql('DROP INDEX UNIQ_8D93D649290B2F37');
+        $this->addSql('DROP nick');
         $this->addSql('ALTER TABLE "user" ALTER full_name SET NOT NULL');
     }
 }
