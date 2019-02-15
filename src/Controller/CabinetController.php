@@ -45,8 +45,6 @@ class CabinetController extends AbstractController
 
         $questions = $em->getRepository(Questions::class)->findAllStatusNotAnswered($user);
 
-//        var_dump($questions);die();
-
         $answers = array();
 
         foreach ($questions as $question) {
@@ -57,11 +55,6 @@ class CabinetController extends AbstractController
         }
 
         $result = [$answers];
-
-//        var_dump($result);die();
-
-//        var_dump($answers);die();
-//        var_dump($questions);die();
 
         return $this->render(
             'profile/user-profile.html.twig',

@@ -31,6 +31,7 @@ class AppExtension extends AbstractExtension
         foreach ($data as $key => $value){
             $result[] = [
                 'question_text' => $value['text'],
+                'question_id' => $value['id'],
                 'question_time' => $value['time'],
                 'question_who_asked' => $value['who_asked'],
                 'question_to_asked' => $value['to_asked'],

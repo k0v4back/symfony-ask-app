@@ -217,7 +217,6 @@
                 </div>
                 <hr>
 
-
                 <!-- Tab panes -->
                 <div class="tab-content">
                     <h3>Всего {{ answers|question|length }} вопросов и ответов</h3>
@@ -240,8 +239,8 @@
                                 {% endif %}
                                 <i class="mb-2">{{ data.answer_text }}</i>
                             </div>
-                            <a href="" class="btn btn-outline-danger btn-sm">Like 12</a>
-                            <a href="" class="btn btn-danger btn-sm">Unlike 32</a>
+                            <a href="{{ path('like_question', {'id': data.question_id, 'nick': app.user.nick}) }}" class="btn btn-outline-danger btn-sm">Like 12</a>
+                            <a href="{{ path('unlike_question', {'id': data.question_id, 'nick': app.user.nick}) }}" class="btn btn-danger btn-sm">Unlike 32</a>
                             <hr>
                         {% endfor %}
                     </div>
