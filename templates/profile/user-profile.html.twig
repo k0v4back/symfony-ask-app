@@ -220,19 +220,23 @@
 
                 <!-- Tab panes -->
                 <div class="tab-content">
-                    <h3>Всего 10 вопросов и ответов</h3>
+                    <h3>Всего {{ answers|question|length }} вопросов и ответов</h3>
                     <br>
                     <br>
-
                     <div>
                         {% for data in answers|question %}
                             <div class="list-group">
                                 <div class="d-flex w-100 justify-content-between">
                                     <b class="mb-2">{{ data.question_text }}</b>
-                                    <small>{{ data.answer_time|date('d:m:Y') }}</small>
+                                    <small>{{ data.answer_time|date("F jS \\a\\t g:ia") }}</small>
                                 </div>
+                                <a style="font-size:10px">Автор вороса:</a>
                                 {% if data.question_anon == false %}
-                                    <a class="mb-2" style="font-size:10px">{{ data.question_who_asked }}</a>
+                                    <a href="{{ path('profile_view', {'nick': data.question_who_asked|user.nick}) }}"
+                                       class="mb-2" style="font-size:10px">{{ data.question_who_asked|user.nick }}</a>
+
+                                {% else %}
+                                    <a style="font-size:10px">Аноним</a>
                                 {% endif %}
                                 <i class="mb-2">{{ data.answer_text }}</i>
                             </div>

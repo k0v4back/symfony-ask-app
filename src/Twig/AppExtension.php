@@ -2,21 +2,30 @@
 
 namespace App\Twig;
 
+use App\Repository\UserRepository;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
 
 class AppExtension extends AbstractExtension
 {
+    /** @var UserRepository */
+    private $userRepository;
+
+    public function __construct(UserRepository $userRepository)
+    {
+        $this->userRepository = $userRepository;
+    }
+
     public function getFilters()
     {
         return [
-            new TwigFilter('question', [$this, 'QuestionAnswerFilter'])
+            new TwigFilter('question', [$this, 'QuestionAnswerFilter']),
+            new TwigFilter('user', [$this, 'QuestionUser'])
         ];
     }
 
     public function QuestionAnswerFilter($data)
     {
-
         $result = array();
 
         foreach ($data as $key => $value){
@@ -35,6 +44,19 @@ class AppExtension extends AbstractExtension
         }
 
         return $result;
+    }
+
+
+    public function QuestionUser($data)
+    {
+//        $em = $this->getDoctrine()->getManager();
+//        $question = $em->getRepository(Questions::class)->find($question->getId());
+
+        $user = $this->userRepository->findOneBy([
+            'id' => $data
+        ]);
+
+        return $user;
     }
 
 }
