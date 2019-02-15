@@ -57,7 +57,7 @@ class QuestionsRepository extends ServiceEntityRepository
             ->setParameter('statusAnswered', Questions::ANSWERED)
             ->orderBy('q.time', 'DESC')
             ->getQuery()
-            ->getResult();
+            ->getArrayResult();
     }
 
     // /**

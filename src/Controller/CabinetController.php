@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Answer;
 use App\Entity\Questions;
 use App\Entity\User;
 use App\Form\QuestionFormType;
@@ -39,12 +40,38 @@ class CabinetController extends AbstractController
             $em->persist($questions);
             $em->flush();
         }
+
+        $em = $this->getDoctrine()->getManager();
+
+        $questions = $em->getRepository(Questions::class)->findAllStatusNotAnswered($user);
+
+//        var_dump($questions);die();
+
+        $answers = array();
+
+        foreach ($questions as $question) {
+            $answer = $em->getRepository(Answer::class)->findByQuestionId($question['id']);
+            $answers[] = array_merge($answer, $question);
+
+
+        }
+
+        $result = [$answers];
+
+//        var_dump($result);die();
+
+//        var_dump($answers);die();
+//        var_dump($questions);die();
+
         return $this->render(
             'profile/user-profile.html.twig',
             [
                 'user' => $user,
                 'path' => $this->getParameter('avatar_directory'),
-                'form_question' => $form->createView()
+                'form_question' => $form->createView(),
+                'questions' => $questions,
+                'answers' => $answers,
+                'result' => $result
             ]
         );
     }

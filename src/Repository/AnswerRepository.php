@@ -29,6 +29,15 @@ class AnswerRepository extends ServiceEntityRepository
         ;
     }
 
+    public function findByQuestionId($userId)
+    {
+        return $this->createQueryBuilder('a')
+            ->andWhere('a.question_id = :val')
+            ->setParameter('val', $userId)
+            ->getQuery()
+            ->getResult();
+    }
+
     /*
     public function findOneBySomeField($value): ?Answer
     {

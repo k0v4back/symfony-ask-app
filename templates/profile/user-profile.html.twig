@@ -223,20 +223,23 @@
                     <h3>Всего 10 вопросов и ответов</h3>
                     <br>
                     <br>
-                    <div>
-                        <div class="list-group">
-                            <div class="d-flex w-100 justify-content-between">
-                                <b class="mb-1">Animal Diagnostic and precautions</b>
-                                <small>3 days ago</small>
-                            </div>
-                            <i class="mb-2">Donec id elit non mi porta gravida at eget metus. Maecenas
-                                sed diam
-                                eget risus varius blandit.</i>
-                        </div>
-                        <a href="" class="btn btn-outline-danger btn-sm">Like 12</a>
-                        <a href="" class="btn btn-danger btn-sm">Unlike 32</a>
-                        <hr>
 
+                    <div>
+                        {% for data in answers|question %}
+                            <div class="list-group">
+                                <div class="d-flex w-100 justify-content-between">
+                                    <b class="mb-2">{{ data.question_text }}</b>
+                                    <small>{{ data.answer_time|date('d:m:Y') }}</small>
+                                </div>
+                                {% if data.question_anon == false %}
+                                    <a class="mb-2" style="font-size:10px">{{ data.question_who_asked }}</a>
+                                {% endif %}
+                                <i class="mb-2">{{ data.answer_text }}</i>
+                            </div>
+                            <a href="" class="btn btn-outline-danger btn-sm">Like 12</a>
+                            <a href="" class="btn btn-danger btn-sm">Unlike 32</a>
+                            <hr>
+                        {% endfor %}
                     </div>
 
                 </div>
