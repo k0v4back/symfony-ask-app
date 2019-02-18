@@ -98,6 +98,16 @@ class User implements UserInterface, \Serializable
     private $following;
 
     /**
+     * @ORM\Column(type="string", length=50, nullable=true)
+     */
+    private $confirmToken;
+
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $status;
+
+    /**
      * @ORM\Column(type="string", length=30)
      * @Assert\NotBlank()
      */
@@ -283,6 +293,7 @@ class User implements UserInterface, \Serializable
         $this->nick = null;
         $this->followers = new ArrayCollection();
         $this->following = new ArrayCollection();
+        $this->status = false;
     }
 
     public function getRoles()
@@ -308,6 +319,38 @@ class User implements UserInterface, \Serializable
         return $this->getNick();
     }
 
+    /**
+     * @return mixed
+     */
+    public function getConfirmToken()
+    {
+        return $this->confirmToken;
+    }
+
+    /**
+     * @param mixed $confirmToken
+     */
+    public function setConfirmToken($confirmToken): void
+    {
+        $this->confirmToken = $confirmToken;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getStatus()
+    {
+        return $this->status;
+    }
+
+    /**
+     * @param mixed $status
+     */
+    public function setStatus($status): void
+    {
+        $this->status = $status;
+    }
+
     public function eraseCredentials()
     {
         return;
@@ -319,7 +362,8 @@ class User implements UserInterface, \Serializable
         return serialize([
             $this->id,
             $this->nick,
-            $this->password
+            $this->password,
+            $this->status
         ]);
     }
 
@@ -327,6 +371,7 @@ class User implements UserInterface, \Serializable
     {
         list($this->id,
             $this->nick,
-            $this->password) = unserialize($serialized);
+            $this->password,
+            $this->status) = unserialize($serialized);
     }
 }
