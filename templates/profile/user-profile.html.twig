@@ -239,8 +239,17 @@
                                 {% endif %}
                                 <i class="mb-2">{{ data.answer_text }}</i>
                             </div>
-                            <a href="{{ path('like_question', {'id': data.question_id, 'nick': app.user.nick}) }}" class="btn btn-outline-danger btn-sm">Like 12</a>
-                            <a href="{{ path('unlike_question', {'id': data.question_id, 'nick': app.user.nick}) }}" class="btn btn-danger btn-sm">Unlike 32</a>
+                            {% if app.user %}
+                                <a href="{{ path('like_question', {'id': data.question_id, 'nick': app.user.nick, 'usernick': user.nick}) }}"
+                                   class="btn btn-outline-danger btn-sm">Like {{ like.countLike(data.question_id) }}</a>
+                                <a href="{{ path('unlike_question', {'id': data.question_id, 'nick': app.user.nick, 'usernick': user.nick}) }}"
+                                   class="btn btn-danger btn-sm">Dislike {{ like.countUnlike(data.question_id) }}</a>
+                            {% else %}
+                                <a href="{{ path('app_login') }}"
+                                   class="btn btn-outline-danger btn-sm">Like {{ like.countLike(data.question_id) }}</a>
+                                <a href="{{ path('app_login') }}"
+                                   class="btn btn-danger btn-sm">Dislike {{ like.countUnlike(data.question_id) }}</a>
+                            {% endif %}
                             <hr>
                         {% endfor %}
                     </div>

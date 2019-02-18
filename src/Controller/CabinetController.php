@@ -13,6 +13,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use App\Service\Like;
 
 /**
  * @Route("/profile")
@@ -50,11 +51,11 @@ class CabinetController extends AbstractController
         foreach ($questions as $question) {
             $answer = $em->getRepository(Answer::class)->findByQuestionId($question['id']);
             $answers[] = array_merge($answer, $question);
-
-
         }
 
         $result = [$answers];
+
+        $like = new Like();
 
         return $this->render(
             'profile/user-profile.html.twig',
@@ -64,7 +65,8 @@ class CabinetController extends AbstractController
                 'form_question' => $form->createView(),
                 'questions' => $questions,
                 'answers' => $answers,
-                'result' => $result
+                'result' => $result,
+                'like' => $like
             ]
         );
     }
