@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Event\FollowEvent;
+use App\Event\UnfollowEvent;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
@@ -48,13 +49,21 @@ class FollowingController extends AbstractController
     /**
      * @Route("/unfollow/{id}", name="follow_unfollow")
      */
-    public function unFollow(User $userToUnFollow, Request $request)
+    public function unFollow(
+        User $userToUnFollow,
+        Request $request,
+        EventDispatcherInterface $eventDispatcher
+    )
     {
         if($request->get('data')){
 
             $currentUser = $this->getUser();
 
             $currentUser->getFollowing()->removeElement($userToUnFollow);
+
+            $followEvent = new UnfollowEvent($userToUnFollow);
+            $eventDispatcher->dispatch(UnfollowEvent::NAME, $followEvent);
+
             $this->getDoctrine()->getManager()->flush();
 
             $arrData = ['output' => 'Good!'];
