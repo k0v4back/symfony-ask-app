@@ -3,8 +3,10 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Event\FollowEvent;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -17,7 +19,11 @@ class FollowingController extends AbstractController
     /**
      * @Route("/follow/{id}", name="following_follow")
      */
-    public function follow(User $userToFollow, Request $request)
+    public function follow(
+        User $userToFollow,
+        Request $request,
+        EventDispatcherInterface $eventDispatcher
+    )
     {
         if($request->get('data')){
             /** @var User $currentUser */
@@ -27,6 +33,10 @@ class FollowingController extends AbstractController
                 $currentUser->getFollowing()->add($userToFollow);
                 $this->getDoctrine()->getManager()->flush();
             }
+
+            $followEvent = new FollowEvent($userToFollow);
+            $eventDispatcher->dispatch(FollowEvent::NAME, $followEvent);
+
             $arrData = ['output' => 'Good!'];
             return new JsonResponse($arrData);
         }
