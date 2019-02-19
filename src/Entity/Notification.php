@@ -26,6 +26,16 @@ class Notification
      */
     private $seen;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $text;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\User")
+     */
+    private $creator;
+
     public function __construct()
     {
         $this->seen = false;
@@ -48,19 +58,34 @@ class Notification
         return $this;
     }
 
-    /**
-     * @return mixed
-     */
     public function getUser()
     {
         return $this->user;
     }
 
-    /**
-     * @param mixed $user
-     */
     public function setUser($user): void
     {
         $this->user = $user;
     }
+
+    public function getText()
+    {
+        return $this->text;
+    }
+
+    public function setText($text): void
+    {
+        $this->text = $text;
+    }
+
+    public function getCreator()
+    {
+        return $this->creator;
+    }
+
+    public function setCreator($creator): void
+    {
+        $this->creator = $creator;
+    }
+
 }
