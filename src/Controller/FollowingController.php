@@ -31,11 +31,12 @@ class FollowingController extends AbstractController
 
             if ($userToFollow->getId() !== $currentUser->getId()) {
                 $currentUser->getFollowing()->add($userToFollow);
+
+                $followEvent = new FollowEvent($userToFollow);
+                $eventDispatcher->dispatch(FollowEvent::NAME, $followEvent);
+
                 $this->getDoctrine()->getManager()->flush();
             }
-
-            $followEvent = new FollowEvent($userToFollow);
-            $eventDispatcher->dispatch(FollowEvent::NAME, $followEvent);
 
             $arrData = ['output' => 'Good!'];
             return new JsonResponse($arrData);

@@ -55,4 +55,12 @@ class Notification
     {
         return $this->user;
     }
+
+    /**
+     * @param mixed $user
+     */
+    public function setUser($user): void
+    {
+        $this->user = $user;
+    }
 }
