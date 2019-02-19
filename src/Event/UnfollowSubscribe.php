@@ -28,7 +28,7 @@ class UnfollowSubscribe implements EventSubscriberInterface
 
         $notification = new Notification();
         $notification->setUser($user);
-        $notification->setSeen(true);
+        $notification->setSeen(false);
 
         $this->entityManager->persist($notification);
         $this->entityManager->flush();
