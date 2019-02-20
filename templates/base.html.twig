@@ -16,6 +16,9 @@
         <link href="{{ asset('css/simple-sidebar.css') }}" rel="stylesheet"/>
         <link rel="stylesheet"
               href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css"
+              integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr"
+              crossorigin="anonymous">
     {% endblock %}
 
 </head>
@@ -27,16 +30,26 @@
     <!-- Sidebar -->
     {% if app.user %}
         <div class="bg-light border-right" id="sidebar-wrapper">
-            <div class="sidebar-heading">Logo</div>
+            <div class="sidebar-heading">
+                <a href="{{ path('news_feed') }}">
+                    <img src="https://camo.githubusercontent.com/455d6fd4f59444933a6d1b73b4465ef8c6cf2d21/68747470733a2f2f6172617361746173617967696e2e6769746875622e696f2f6f70656e6c6f676f732f6c6f676f732f61797368612d6f2e6a7067" alt="ask" width="50px" height="50px">
+                </a>
+            </div>
             <div class="list-group list-group-flush">
                 <a href="{{ path('profile_view', {'nick': app.user.nick}) }}"
-                   class="list-group-item list-group-item-action bg-light">Мой профиль</a>
+                   class="list-group-item list-group-item-action bg-light">
+                    <i class="fas fa-user-alt"></i>&nbsp;&nbsp; Мой
+                    профиль</a>
                 <a href="{{ path('profile_settings_form', {'nick': app.user.nick}) }}"
-                   class="list-group-item list-group-item-action bg-light">Настройки профиля</a>
+                   class="list-group-item list-group-item-action bg-light">
+                    <i class="fas fa-cog"></i>&nbsp;&nbsp;Настройки
+                    профиля</a>
                 <a href="{{ path('questions_get_all', {'nick': app.user.nick}) }}"
-                   class="list-group-item list-group-item-action bg-light">Вопросы</a>
+                   class="list-group-item list-group-item-action bg-light">
+                    <i class="far fa-question-circle"></i>&nbsp;&nbsp;Вопросы</a>
                 <a href="{{ path('security_logout') }}"
-                   class="list-group-item list-group-item-action bg-light">Выход</a>
+                   class="list-group-item list-group-item-action bg-light">
+                    <i class="fas fa-sign-out-alt"></i>&nbsp;&nbsp;Выход</a>
 
             </div>
         </div>
