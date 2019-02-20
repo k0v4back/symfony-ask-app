@@ -42,7 +42,7 @@ class UnfollowSubscribe implements EventSubscriberInterface
         $notification = new Notification();
         $notification->setUser($user);
         $notification->setSeen(false);
-        $notification->setText('Пользователь '. $userId->getNick() .' отписался на вас');
+        $notification->setText('Пользователь '. $userId->getNick() .' отписался от вас');
         $notification->setCreator($userId);
 
         $this->entityManager->persist($notification);
