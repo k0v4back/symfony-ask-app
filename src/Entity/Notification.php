@@ -36,6 +36,11 @@ class Notification
      */
     private $creator;
 
+    /**
+     * @ORM\Column(type="integer", length=5, nullable=true)
+     */
+    private $count;
+
     public function __construct()
     {
         $this->seen = false;
@@ -88,4 +93,13 @@ class Notification
         $this->creator = $creator;
     }
 
+    public function getCount()
+    {
+        return $this->count;
+    }
+
+    public function setCount($count): void
+    {
+        $this->count = $count;
+    }
 }
