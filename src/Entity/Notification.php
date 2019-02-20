@@ -41,6 +41,11 @@ class Notification
      */
     private $count;
 
+    /**
+     * @ORM\Column(type="integer", length=11, nullable=true)
+     */
+    private $time;
+
     public function __construct()
     {
         $this->seen = false;
@@ -101,5 +106,15 @@ class Notification
     public function setCount($count): void
     {
         $this->count = $count;
+    }
+
+    public function getTime()
+    {
+        return $this->time;
+    }
+
+    public function setTime($time): void
+    {
+        $this->time = $time;
     }
 }
