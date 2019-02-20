@@ -5,11 +5,13 @@ namespace App\Controller;
 use App\Entity\Answer;
 use App\Entity\Questions;
 use App\Entity\User;
+use App\Event\AddQuestionEvent;
 use App\Form\QuestionFormType;
 use App\Form\UserSettingsType;
 use App\Service\FileUploader;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -23,7 +25,11 @@ class CabinetController extends AbstractController
     /**
      * @Route("/{nick}", name="profile_view")
      */
-    public function userProfile(User $user, Request $request)
+    public function userProfile(
+        User $user,
+        Request $request,
+        EventDispatcherInterface $eventDispatcher
+    )
     {
         $questions = new Questions();
         $form = $this->createForm(QuestionFormType::class, $questions);
@@ -36,6 +42,12 @@ class CabinetController extends AbstractController
             $questions->setTime(time());
             $questions->setStatus(Questions::NOT_ANSWERED);
             $questions->setAnon($form->get('anon')->getData());
+
+            $userRegisterEvent = new AddQuestionEvent($user);
+            $eventDispatcher->dispatch(
+                AddQuestionEvent::NAME,
+                $userRegisterEvent
+            );
 
             $em = $this->getDoctrine()->getManager();
             $em->persist($questions);
