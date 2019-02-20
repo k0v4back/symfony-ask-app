@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    {{ dump(notifications) }}
+
+    <div class="container">
+        <ul class="list-group">
+            {% for notification in notifications %}
+                <li class="list-group-item mb-2">
+                    <div class="d-flex w-100 justify-content-between">
+                        {% if notification.seen == false %}
+                            <b>
+                                {{ notification.text }}
+                            </b>
+                        {% else %}
+                            {{ notification.text }}
+                        {% endif %}
+                        <small>date</small>
+                    </div>
+                </li>
+            {% endfor %}
+
+        </ul>
+    </div>
+
+
+{% endblock %}
