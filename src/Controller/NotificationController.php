@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Notification;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
 
 class NotificationController extends AbstractController
@@ -17,8 +18,6 @@ class NotificationController extends AbstractController
     {
         $em = $this->getDoctrine()->getManager();
         $listNotifications = $em->getRepository(Notification::class)->findAllNotificationForUser($this->getUser());
-
-        $em = $this->getDoctrine()->getManager();
 
         foreach ($listNotifications as $key => $notification){
             if ($notification->getCount() != null){
@@ -38,5 +37,19 @@ class NotificationController extends AbstractController
                 'notifications' => $listNotifications
             ]
         );
+    }
+
+
+    /**
+     * @Route("/unread-count", name="notification_unread")
+     */
+    public function unreadCount()
+    {
+        $em = $this->getDoctrine()->getManager();
+        $unread_count = $em->getRepository(Notification::class)->findUnseenByUser($this->getUser());
+
+        return new JsonResponse([
+            'count' => $unread_count
+        ]);
     }
 }
