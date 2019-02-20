@@ -44,6 +44,7 @@ class FollowSubscriber implements EventSubscriberInterface
         $notification->setUser($user);
         $notification->setSeen(false);
         $notification->setText('Пользователь '. $userId->getNick() .' подписался на вас');
+        $notification->setTime(time());
         $notification->setCreator($userId);
 
         $this->entityManager->persist($notification);

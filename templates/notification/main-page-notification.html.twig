@@ -2,8 +2,6 @@
 
 {% block body %}
 
-    {{ dump(notifications) }}
-
     <div class="container">
         <ul class="list-group">
             {% for notification in notifications %}
@@ -11,18 +9,17 @@
                     <div class="d-flex w-100 justify-content-between">
                         {% if notification.seen == false %}
                             <b>
-                                {{ notification.text }}
+                                <a href="{{ path('profile_view', {'nick': notification.creator.nick}) }}">{{ notification.text }}</a>
                             </b>
                         {% else %}
-                            {{ notification.text }}
+                            <a href="{{ path('profile_view', {'nick': notification.creator.nick}) }}">{{ notification.text }}</a>
                         {% endif %}
-                        <small>date</small>
+                        <small>{{ notification.time|date("F jS \\a\\t g:ia") }}</small>
                     </div>
                 </li>
             {% endfor %}
 
         </ul>
     </div>
-
 
 {% endblock %}

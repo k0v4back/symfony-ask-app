@@ -21,8 +21,15 @@ class NotificationController extends AbstractController
         $em = $this->getDoctrine()->getManager();
 
         foreach ($listNotifications as $key => $notification){
-            $notification->setSeen(true);
-            $em->flush();
+            if ($notification->getCount() != null){
+                $notification->setSeen(true);
+                $em->flush();
+            } else {
+                $notification->setCount(1);
+                $notification->setSeen(false);
+                $em->flush();
+            }
+
         }
 
         return $this->render(
