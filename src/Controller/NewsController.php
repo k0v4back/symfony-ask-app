@@ -24,14 +24,16 @@ class NewsController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted()) {
-            var_dump($form->getData()->getNick());
-            die();
+            $em = $this->getDoctrine()->getManager();
+            $userBySearch = $em->getRepository(User::class)->findUserByNick($form->getData()->getNick());
+
+            var_dump($userBySearch);die();
         }
 
         return $this->render(
             'news/news.html.twig',
             [
-                'form' => $form->createView(),
+                'form' => $form->createView()
             ]
         );
     }

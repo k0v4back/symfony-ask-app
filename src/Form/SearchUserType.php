@@ -14,7 +14,11 @@ class SearchUserType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('nick', SearchType::class)
-            ->add('Найти', SubmitType::class);
+            ->add('Найти', SubmitType::class, array(
+                'attr' => [
+                    'class' => 'btn btn-outline-success'
+                ]
+            ));
     }
 
     public function configureOptions(OptionsResolver $resolver)
