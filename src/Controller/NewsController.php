@@ -3,8 +3,8 @@
 namespace App\Controller;
 
 use App\Entity\User;
-use App\Form\SearchUserType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -16,25 +16,31 @@ class NewsController extends AbstractController
     /**
      * @Route("/", name="news_feed")
      */
-    public function index(Request $request)
+    public function index()
     {
-        $user = new User();
-
-        $form = $this->createForm(SearchUserType::class, $user);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted()) {
-            $em = $this->getDoctrine()->getManager();
-            $userBySearch = $em->getRepository(User::class)->findUserByNick($form->getData()->getNick());
-
-            var_dump($userBySearch);die();
-        }
-
         return $this->render(
-            'news/news.html.twig',
-            [
-                'form' => $form->createView()
-            ]
+            'news/news.html.twig'
         );
+    }
+
+
+    /**
+     * @Route("/search", name="search_by_nick")
+     */
+    public function search(Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+        $userBySearch = $em->getRepository(User::class)->findUserByNick($request->request->get('search'));
+
+        var_dump($userBySearch);die();
+
+//        return new JsonResponse($userBySearch);
+
+//        return $this->render(
+//            'news/news.html.twig',
+//            [
+//                'search' => $userBySearch
+//            ]
+//        );
     }
 }

@@ -2,28 +2,68 @@
 
 {% block body %}
     <div class="container-fluid mt-3">
-        {#<div class="input-group col-md-12">#}
-            {#<input class="form-control py-2" type="search" id="example-search-input" placeholder="Поиск...">#}
-            {#<span class="input-group-append">#}
-                {#<button class="btn btn-outline-secondary" type="button">#}
-                    {#<i class="fa fa-search"></i>#}
-                {#</button>#}
-            {#</span>#}
-        {#</div>#}
-
-        {{ form_start(form) }}
-
-        {{ form_row(form.nick, {'label': 'Ник пользователя'}) }}
-        {{ form_end(form) }}
+        <div class="input-group col-md-12">
+            <input class="form-control py-2" type="search" id="search" placeholder="Поиск...">
+            <span class="input-group-append">
+                <button class="btn btn-outline-secondary" type="button">
+                    <i class="fa fa-search"></i>
+                </button>
+            </span>
+        </div>
 
         <hr>
 
         <ul class="list-group mt-3">
             <li class="list-group-item mb-2">
-                <div class="d-flex w-100 justify-content-between">
+                <div class="d-flex w-100 justify-content-between result" id="resSearch">
                     <a href="#">Some text</a>
+                    <script>
+                    </script>
                 </div>
             </li>
         </ul>
     </div>
+{% endblock %}
+
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script type="text/javascript">
+        $(function(){
+            $("#search").keyup(function(){
+                var search = $("#search").val();
+                $.ajax({
+                    type: "POST",
+                    url: "search",
+                    data: {"search": search},
+                    cache: false,
+                    success: function(response){
+                        $("#resSearch").html(response);
+                    }
+                });
+                return false;
+            });
+        });
+    </script>
+
+
+    {#<script>#}
+        {#function fetchNotificationCount() {#}
+            {#fetch(#}
+                {#'{{ path('search_by_nick') }}',#}
+                {#{'credentials': 'include'}#}
+            {#).then(function (response) {#}
+                {#response.json().then(function (json) {#}
+                    {#document.getElementById('resSearch').innerText = json.string;#}
+                    {#setTimeout(fetchNotificationCount, 3000);#}
+                {#});#}
+            {#}).catch(function (reason) {#}
+
+            {#});#}
+        {#}#}
+
+        {#fetchNotificationCount();#}
+    {#</script>#}
+
 {% endblock %}
