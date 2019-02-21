@@ -36,7 +36,7 @@ class User implements UserInterface, \Serializable
     /**
      * @ORM\Column(type="string", length=50, unique=true, nullable=true)
      * @Assert\NotBlank()
-     * @Assert\Length(min=4, max=50)
+     * @Assert\Length(min=1, max=50)
      */
     private $nick;
 

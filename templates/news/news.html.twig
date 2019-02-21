@@ -11,6 +11,12 @@
             </span>
         </div>
 
+        {{ form_start(form) }}
+
+        {{ form_row(form.nick, {'label': 'Ник'}) }}
+
+        {{ form_end(form) }}
+
         <ul class="list-group mt-3">
             <li class="list-group-item mb-2">
                 <div class="d-flex w-100 justify-content-between">
