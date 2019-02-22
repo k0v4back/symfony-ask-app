@@ -32,15 +32,13 @@ class NewsController extends AbstractController
         $em = $this->getDoctrine()->getManager();
         $userBySearch = $em->getRepository(User::class)->findUserByNick($request->request->get('search'));
 
-        var_dump($userBySearch);die();
+        $data = array();
 
-//        return new JsonResponse($userBySearch);
-
-//        return $this->render(
-//            'news/news.html.twig',
-//            [
-//                'search' => $userBySearch
-//            ]
-//        );
+        foreach ($userBySearch as $item){
+            $data[] = [
+                'nick' => $item->getNick()
+            ];
+        }
+        return new JsonResponse($data);
     }
 }

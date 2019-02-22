@@ -13,12 +13,11 @@
 
         <hr>
 
+
         <ul class="list-group mt-3">
             <li class="list-group-item mb-2">
-                <div class="d-flex w-100 justify-content-between result" id="resSearch">
-                    <a href="#">Some text</a>
-                    <script>
-                    </script>
+                <div class="d-flex w-100 justify-content-between">
+                    <a href="#" id="resSearch">Some text</a>
                 </div>
             </li>
         </ul>
@@ -39,31 +38,19 @@
                     data: {"search": search},
                     cache: false,
                     success: function(response){
-                        $("#resSearch").html(response);
+                        console.log(JSON.stringify(response))
+                        var frndCard = function(list) {
+                            for (var one in list) {
+                                    document.getElementById("resSearch").innerHTML = list[one].nick;
+                                var a = document.getElementById('resSearch');
+                                a.href = '/profile/' + list[one].nick
+                            }
+                        };
+                        frndCard(response);
                     }
                 });
                 return false;
             });
         });
     </script>
-
-
-    {#<script>#}
-        {#function fetchNotificationCount() {#}
-            {#fetch(#}
-                {#'{{ path('search_by_nick') }}',#}
-                {#{'credentials': 'include'}#}
-            {#).then(function (response) {#}
-                {#response.json().then(function (json) {#}
-                    {#document.getElementById('resSearch').innerText = json.string;#}
-                    {#setTimeout(fetchNotificationCount, 3000);#}
-                {#});#}
-            {#}).catch(function (reason) {#}
-
-            {#});#}
-        {#}#}
-
-        {#fetchNotificationCount();#}
-    {#</script>#}
-
 {% endblock %}
