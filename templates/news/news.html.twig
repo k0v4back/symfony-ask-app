@@ -4,11 +4,6 @@
     <div class="container-fluid mt-3">
         <div class="input-group col-md-12">
             <input class="form-control py-2" type="search" id="search" placeholder="Поиск...">
-            <span class="input-group-append">
-                <button class="btn btn-outline-secondary" type="button">
-                    <i class="fa fa-search"></i>
-                </button>
-            </span>
         </div>
 
         <hr>
@@ -17,7 +12,7 @@
         <ul class="list-group mt-3">
             <li class="list-group-item mb-2">
                 <div class="d-flex w-100 justify-content-between">
-                    <a href="#" id="resSearch">Some text</a>
+                    <a href="#" id="resSearch">Введите имя или ник пользователя в строку поиска</a>
                 </div>
             </li>
         </ul>
@@ -38,10 +33,28 @@
                     data: {"search": search},
                     cache: false,
                     success: function(response){
-                        console.log(JSON.stringify(response))
                         var frndCard = function(list) {
+                            // console.log(JSON.stringify(list))
+                            // var arr = list;
+                            //
+                            // var text = '<div class="d-flex w-100 justify-content-between" id="resSearch3">'
+                            // for (var i=0;i<arr.length;i++){
+                            //     // document.getElementById("resSearch").innerHTML = arr[i].nick;
+                            //     // console.log(arr[i].nick)
+                            //     // text+='<a href="#" id="resSearch"></a>'
+                            //     text+="<a href='#' id='resSearch'>" + arr[i].nick + "</a>"
+                            //     // document.getElementById("resSearch").innerHTML = arr[i].nick;
+                            //     // var a = document.getElementById('resSearch');
+                            //     // a.href = '/profile/' + arr[i].nick
+                            // }
+                            // text+="</div>";
+                            //
+                            // document.getElementById("resSearch3").innerHTML = text;
+
+
+
                             for (var one in list) {
-                                    document.getElementById("resSearch").innerHTML = list[one].nick;
+                                document.getElementById("resSearch").innerHTML = list[one].nick;
                                 var a = document.getElementById('resSearch');
                                 a.href = '/profile/' + list[one].nick
                             }

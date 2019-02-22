@@ -24,6 +24,8 @@ class UserRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('n')
             ->where('n.nick LIKE :nick')
             ->setParameter('nick', $nick)
+            ->orWhere('n.fullName LIKE :fullName')
+            ->setParameter('fullName', $nick)
             ->getQuery()
             ->getResult();
     }
