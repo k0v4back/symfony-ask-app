@@ -52,6 +52,9 @@ services:
         tags:
             - { name: sonata.admin, manager_type: orm, label: Answer }
 
+    security.acl.permission.map:
+            class: Sonata\AdminBundle\Security\Acl\Permission\AdminPermissionMap
+
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones

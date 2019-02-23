@@ -34,7 +34,7 @@ class SecurityController extends AbstractController
     public function confirm(string $token, UserRepository $userRepository, EntityManagerInterface $entityManager)
     {
         $user = $userRepository->findOneBy([
-            'confirmationToken' => $token
+            'confirmToken' => $token
         ]);
 
         if (null !== $user) {
