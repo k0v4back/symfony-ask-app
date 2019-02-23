@@ -31,9 +31,7 @@
     {% if app.user %}
         <div class="bg-light border-right" id="sidebar-wrapper">
             <div class="sidebar-heading">
-                <a href="{{ path('news_feed') }}">
-                    <img src="https://camo.githubusercontent.com/455d6fd4f59444933a6d1b73b4465ef8c6cf2d21/68747470733a2f2f6172617361746173617967696e2e6769746875622e696f2f6f70656e6c6f676f732f6c6f676f732f61797368612d6f2e6a7067" alt="ask" width="50px" height="50px">
-                </a>
+                Logo
             </div>
             <div class="list-group list-group-flush">
                 <a href="{{ path('profile_view', {'nick': app.user.nick}) }}"
