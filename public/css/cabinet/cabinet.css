@@ -168,3 +168,28 @@
     color: #aea9c3;
     font-size: 1rem;
 }
+
+
+.image_outer_container{
+    margin-top: auto;
+    margin-bottom: auto;
+    border-radius: 50%;
+    position: relative;
+}
+
+.image_inner_container img{
+    height: 120px;
+    width: 120px;
+    border-radius: 50%;
+}
+
+.image_outer_container .green_icon{
+    background-color: #4cd137;
+    position: absolute;
+    right: 10px;
+    bottom: 5px;
+    height: 30px;
+    width: 30px;
+    border:5px solid white;
+    border-radius: 50%;
+}

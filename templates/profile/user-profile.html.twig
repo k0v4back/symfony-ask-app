@@ -23,16 +23,24 @@
                                             </div>
                                             <div class="col-xl-4 col-md-4 d-flex justify-content-center">
                                                 <div class="image-default">
-                                                    {% if user.avatar %}
-                                                        <img src="{{ asset('upload/user_photo/' ~ user.avatar) }}"
-                                                             class="rounded-circle"/>
-                                                    {% else %}
-                                                        <img src="{{ asset('upload/user_photo/default.jpg') }}"
-                                                             class="rounded-circle" style="width:120px; height: 120px"/>
-                                                    {% endif %}
 
+                                                    {% if user.avatar %}
+                                                    <div class="image_inner_container">
+                                                        <img src="{{ asset('upload/user_photo/' ~ user.avatar) }}" class="rounded-circle">
+                                                    </div>
+                                                    {% else %}
+                                                    <div class="image_inner_container">
+                                                        <img src="{{ asset('upload/user_photo/default.jpg') }}" class="rounded-circle">
+                                                    </div>
+                                                    {% endif %}
                                                 </div>
+
                                                 <div class="infos">
+                                                    {% if user.lastActivity > currentTime %}
+                                                        <span class="badge badge-success">В сети</span>
+                                                    {% else %}
+                                                        <span class="badge badge-secondary">был в сети {{ user.lastActivity|date("F jS \\a\\t g:ia") }}</span>
+                                                    {% endif %}
                                                     <h2>
                                                         {% if user.fullName %}
                                                             {{ user.fullName }}
