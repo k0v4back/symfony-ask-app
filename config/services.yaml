@@ -34,6 +34,12 @@ services:
         arguments:
             $mailerFrom: '%email_from%'
 
+    activity_listener:
+        class: App\Event\ActivityListener
+        arguments: [@security.context_listener, @doctrine.orm.default_entity_manager]
+        tags:
+            - { name: kernel.event_listener, event: kernel.controller, method: onCoreController }
+
     admin.users:
         class: App\Admin\UserAdmin
         arguments: [~, App\Entity\User, ~]
