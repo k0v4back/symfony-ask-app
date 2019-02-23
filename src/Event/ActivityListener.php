@@ -3,20 +3,22 @@
 namespace App\Event;
 
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpKernel\Event\FilterControllerEvent;
 use Symfony\Component\HttpKernel\HttpKernel;
 use App\Entity\User;
+use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Security\Http\Firewall\ContextListener;
 
 class ActivityListener
 {
-    protected $context;
-    protected $em;
+    private $em;
+    private $security;
 
-    public function __construct(ContextListener $context, EntityManager $manager)
+    public function __construct(EntityManagerInterface $em, Security $security)
     {
-        $this->context = $context;
-        $this->em = $manager;
+        $this->em = $em;
+        $this->security = $security;
     }
 
     public function onCoreController(FilterControllerEvent $event)
@@ -25,8 +27,8 @@ class ActivityListener
             return;
         }
 
-        if ($this->context->getToken()) {
-            $user = $this->context->getToken()->getUser();
+        if ($this->security->getToken()) {
+            $user = $this->security->getToken()->getUser();
 
             $delay = time() + 120;
 

@@ -29,4 +29,16 @@ class UserRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
+
+    public function getLastActive()
+    {
+        $delay = time() + 120;
+
+        $qb = $this->createQueryBuilder('u')
+            ->where('u.lastActivity > :delay')
+            ->setParameter('delay', $delay)
+        ;
+
+        return $qb->getQuery()->getResult();
+    }
 }

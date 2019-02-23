@@ -57,6 +57,9 @@ class CabinetController extends AbstractController
         $em = $this->getDoctrine()->getManager();
 
         $questions = $em->getRepository(Questions::class)->findAllStatusNotAnswered($user);
+        $active = $em->getRepository(User::class)->getLastActive();
+
+        var_dump($active);die();
 
         $answers = array();
 
