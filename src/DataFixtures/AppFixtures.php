@@ -22,6 +22,32 @@ class AppFixtures extends Fixture
             'avatar' => 'default.jpg',
             'confirm_token' => 12121212,
             'role' => User::ROLE_ADMIN
+        ],
+        [
+            'full_name' => 'Admin',
+            'nick' => 'admin',
+            'email' => 'admin@admin.com',
+            'password' => '111111',
+            'sex' => 'male',
+            'age' => '10',
+            'country' => 'Russia',
+            'city' => 'Moscow',
+            'avatar' => 'default.jpg',
+            'confirm_token' => 12121212,
+            'role' => User::ROLE_ADMIN
+        ],
+        [
+            'full_name' => 'Test User',
+            'nick' => 'simple_user',
+            'email' => 'simple@user.com',
+            'password' => '111111',
+            'sex' => 'male',
+            'age' => '17',
+            'country' => 'Russia',
+            'city' => 'Moscow',
+            'avatar' => 'default.jpg',
+            'confirm_token' => 12121212,
+            'role' => User::ROLE_USER
         ]
 
     ];
@@ -45,7 +71,7 @@ class AppFixtures extends Fixture
 
     public function addUsers(ObjectManager $manager)
     {
-        foreach (self::USERS as $userData){
+        foreach (self::USERS as $userData) {
             $user = new User();
 
             $user->setFullName($userData['full_name']);
