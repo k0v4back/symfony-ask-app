@@ -108,6 +108,11 @@ class User implements UserInterface, \Serializable
     private $status;
 
     /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $lastActivity;
+
+    /**
      * @ORM\Column(type="string", length=30)
      * @Assert\NotBlank()
      */
@@ -349,6 +354,22 @@ class User implements UserInterface, \Serializable
     public function setStatus($status): void
     {
         $this->status = $status;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getLastActivity()
+    {
+        return $this->lastActivity;
+    }
+
+    /**
+     * @param mixed $lastActivity
+     */
+    public function setLastActivity($lastActivity): void
+    {
+        $this->lastActivity = $lastActivity;
     }
 
     public function eraseCredentials()
