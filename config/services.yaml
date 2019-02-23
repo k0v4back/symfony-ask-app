@@ -46,6 +46,12 @@ services:
         tags:
             - { name: sonata.admin, manager_type: orm, label: Questions }
 
+    admin.answers:
+        class: App\Admin\AnswerAdmin
+        arguments: [~, App\Entity\Answer, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, label: Answer }
+
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
