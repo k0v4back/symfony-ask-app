@@ -9,3 +9,10 @@ On the site you can:
 4. Set likes and dislikes answers to questions
 5. Receive notification of subscriptions or new issues.
 6. Search new friends through search
+
+http://testk0v4.xyz/login
+email: vadkos11@outlook.com
+password: 111111
+
+email: admin@admin.com
+password: 111111
